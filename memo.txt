@@ -1,0 +1,8 @@
+1. VScode Install
+- Material Icon Theme
+- Search => Ctrl+Shift+P
+- ESLint, TSLint
+- Live Server
+
+2. https://joshua1988.github.io/ts/
+- Hand Book
