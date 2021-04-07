@@ -10,4 +10,5 @@ function log(a: string, b?: string) {
 };
 
 // log('hi', 'world') is allowed
-// log('One') is allowd
+// log('One') is allowed
+
