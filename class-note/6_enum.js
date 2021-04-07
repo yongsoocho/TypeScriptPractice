@@ -1,7 +1,8 @@
 var Shoes;
 (function (Shoes) {
-    Shoes[Shoes["Nike"] = 0] = "Nike";
-    Shoes[Shoes["Adidas"] = 1] = "Adidas";
+    Shoes["Nike"] = "nike";
+    Shoes["Adidas"] = "adidas";
 })(Shoes || (Shoes = {}));
+// if Nike = 10 , Adidas will be 11 autometically
 var myShoes = Shoes.Nike;
 console.log(myShoes);
