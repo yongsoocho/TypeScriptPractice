@@ -12,17 +12,8 @@ class Block {
 		this.previousHash = previousHash;
 		this.data = data;
 		this.timestamp = timestamp;
-	}
-	
-	static calculateBlockHash = (index: number, 
-								 previousHash: string, 
-								 timestamp: number, 
-								 data: string): string => {
-		return {
-			CryptoJS.SHA256(index + previousHash + timestamp + data).toString()
-		};
 	};
-
+	
 	static validateStructure = (aBlock: Block): boolean => {
 		return (
 			typeof aBlock.index === 'number' &&
@@ -32,7 +23,13 @@ class Block {
 			typeof aBlock.timestamp === 'number'
 		);
 	};
-
+	
+	static calculateBlockHash = (index: number, 
+								 previousHash: string, 
+								 timestamp: number, 
+								 data: string): string => {
+		return CryptoJS.SHA256(index + previousHash + timestamp + data).toString()
+	};
 };
 
 const genesisBlock: Block = new Block(0, "0302", "", "HelloWorld", 20210408);
@@ -55,20 +52,38 @@ const createNewBlock = (data: string): Block => {
 													 data
 													 );
 	const newBlock: Block = new Block(newIndex, nextHash,  previousBlock.hash, data, newTimestamp);
-	
+	addBlock(newBlock);
 	return newBlock;
 }
 
+const getHashforBlock = (aBlock: Block): string => Block.calculateBlockHash(
+	aBlock.index, 
+	aBlock.previousHash, 
+	aBlock.timestamp, 
+	aBlock.data);
+
 const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
-	if(!validateStructure(candidateBlock)) {
+	if(!Block.validateStructure(candidateBlock)) {
 		return false
 	}else if(previousBlock.index + 1 !== candidateBlock.index) {
 		return false
 	}else if(previousBlock.hash !== candidateBlock.previousHash) {
 		return false
+	}else if(getHashforBlock(candidateBlock) !== candidateBlock.hash) {
+		return false
+	}else{
+		return true
 	}
 };
 
+const addBlock = (candidateBlock: Block): void => {
+	if(isBlockValid(candidateBlock, getLatestBlock())) {
+		blockchain.push(candidateBlock);
+	}
+}
+
+createNewBlock('second');
+createNewBlock('third');
+createNewBlock('fourth');
+
 console.log(blockchain);
-console.log(createNewBlock("hello"));
-console.log(createNewBlock("byebye"));
