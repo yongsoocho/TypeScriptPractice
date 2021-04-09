@@ -29,3 +29,56 @@ logValue(24);
 
 //
 
+// interface Dropdown {
+// 	value: string;
+// 	selected: boolean;
+// }
+
+interface Dropdown<T> {
+	value: T;
+	selected: boolean;
+}
+
+const obj: Dropdown<number> = {
+	value: 10,
+	selected: true
+}
+
+function logTextLength<T>(text: T[]): T[] {	// type hint T[]
+	console.log(text.length);
+	text.forEach(function (text) {
+		console.log(text);
+	})
+	return text;
+}
+logTextLength<string>(['hi', 'abc']);
+
+interface LengthType {
+	length: number;
+}
+
+function logTextLength2<T extends LengthType>(text: T): T {
+	console.log(text.length);
+	return text;
+}
+
+console.log('===');
+logTextLength2('abc');
+logTextLength2('12345');
+logTextLength2({ length: 10 });
+						
+//
+
+interface ShoppingItem {
+	name: string;
+	price: number;
+	stock: number;
+}
+
+function getShoppingItemOption<T extends keyof ShoppingItem>(itemOption: T): T {
+	console.log(itemOption);
+	return itemOption;
+}
+
+getShoppingItemOption('name');
+getShoppingItemOption('price');
